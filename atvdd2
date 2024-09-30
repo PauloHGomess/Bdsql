@@ -1,0 +1,154 @@
+a) Listar os departamentos onde trabalham os funcionários que
+nasceram depois de 1960:
+Usando IN:
+
+SELECT DISTINCT d.nome_departamento, d.cidade
+FROM Departamento d
+WHERE d.id _departamento IN (
+SELECT f.id_departamento
+FROM Funcionario f
+
+WHERE f.data_nascimento > '1960-01-01'
+):
+
+Usando EXISTS:
+
+SELECT DISTINCT d.nome_departamento, d.cidade
+FROM Departamento d
+WHERE EXISTS (
+SELECT1
+
+FROM Funcionario f
+
+WHERE f.id_departamento = d.id _departamento
+AND f.data nascimento > '1960-01-01'
+
+b) Mostrar os nomes dos departamentos e os nomes dos gerentes que
+têm funcionários nascidos antes de 1970:
+
+Usando IN:
+
+SELECT d.nome _departamento, g.nome_funcionario AS gerente
+
+FROM Departamentod
+
+JOIN Funcionario g ON d.id gerente = g.id_funcionario
+WHERE d.id_departamento IN (
+SELECT f.id _departamento
+FROM Funcionariof
+
+WHERE f.data nascimento < '1970-01-01'
+
+ORDER BY d.nome_departamento;
+Usando EXISTS:
+
+SELECT d.nome_departamento, g.nome_funcionario AS gerente
+FROM Departamento d
+
+JOIN Funcionario g ON d.id gerente = g.id _funcionario
+WHERE EXISTS (
+SELECT 1
+ SELECT 1
+
+FROM Funcionariof
+
+WHERE f.id_departamento = d.id_departamento
+AND f.data nascimento <'1970-01-01'
+)
+
+ORDER BY d.nome_departamento;
+
+c) Recuperar os nomes de todos os funcionários cujo supervisor do
+supervisor tenha o nome 'Jorge':
+
+SELECT f.nome_funcionario
+
+SELECT Ss.id _funcionario
+FROM Funcionario ss
+
+WHERE ss.nome_funcionario = 'Jorge'
+)
+
+d) Recuperar os funcionários que ganham mais do que todos os que
+trabalham no projeto 'Produto X':
+
+SELECT f.nome funcionario
+FROM Funcionario f
+WHERE f.salario > ALL(
+SELECT t.salario
+FROM Funcionario t
+
+JOIN TrabalhaEm te ON t.id funcionario = te.id funcionario
+JOIN Projeto p ON te.id_projeto- p.id_projeto
+WHERE p.nome_projeto ='Produto X'
+);
+
+2.
+
+a) Listar os departamentos onde trabalham funcionários nascidos depois
+de 1960:
+
+SELECT DISTINCT d.nome_departamento, d.cidade
+FROM Departamento d
+
+JOIN Funcionario f ON d.id departamento = f.id departamento
+
+WHERE f.data nascimento > '1960-01-01';
+
+b) Apresentar o nome do funcionário, projetos e horas dedicadas:
+SELECT f.nome_funcionario, p.nome_projeto, te.horas_trabalhadas
+FROM Funcionariof
+
+LEFT JOIN TrabalhaEm te ON f.id_funcionario = te.id_funcionario
+ c) Mostrar nomes de departamentos e gerentes com funcionários
+nascidos depois de 1960:
+
+SELECT DISTINCT d.nome_departamento, g.nome_funcionario AS
+gerente
+
+FROM Departamento d
+
+JOIN Funcionario g ON d.id gerente = g.id_funcionario
+JOIN Funcionario f ON d.id_departamento = f.id_departamento
+WHERE f.data nascimento >'1960-01-01'
+ORDER BY d.nome_departamento;
+
+d) Recuperar funcionários cujo supervisor do supervisor tenha o nome
+Jorge':
+
+SELECT f.nome _funcionario
+FROM Funcionario f
+
+JOIN Funcionario s ON fid supervisor = s.id funcionario
+JOIN Funcionario ss ON s.id_supervisor = ss.id_funcionario
+WHERE ss.nome funcionario =Jorge';
+
+e) Nomes dos projetos com mais de 2 funcionários alocados:
+SELECT p.nome_projeto
+FROM Projeto p
+
+JOIN TrabalhaEm te ON p.id_projeto = te.id_projeto
+
+GROUP BY p.nome_projeto
+HAVING COUNT(te.id_funcionario) > 2;
+
+f) Departamentos cujo salário médio é maior que R$ 3.000,00:
+SELECT d.nome_departamento, COUNT(f.id _funcionario) AS
+num_funcionarios
+
+FROM Departamento d
+
+JOIN Funcionario f ON d.id_departamento = f.id_departamentoRME   
+
+GROUP BY d.nome_departamento
+HAVING AVG(f.salario) > 3000;
+
+g) Funcionários que trabalham no departamento com o maior salário:
+SELECT f.nome_funcionario
+FROM Funcionario f
+
+WHERE f.id _departamento =(
+SELECT f2.id_departamento
+FROM Funcionario f2
+ORDER BY f2.salario DESC
+LIMIT 1
